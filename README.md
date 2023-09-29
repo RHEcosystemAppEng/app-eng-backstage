@@ -12,6 +12,7 @@ yarn dev
 ```
 
 # Building the docker image.
+
 Execute below command to build the docker image.
 
 ```shell
