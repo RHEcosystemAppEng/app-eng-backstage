@@ -54,6 +54,7 @@ jobs:
       -
         name: Building & Pushing Docker Image
         run: |
+          docker login quay.io --username ${{ secrets.QUAY_ID }} --password ${{ secrets.QUAY_PW }}
           docker build . --tag quay.io/ecosystem-appeng/appeng-backstage:1_${{ steps.date.outputs.date }}
           docker push quay.io/ecosystem-appeng/appeng-backstage:1_${{ steps.date.outputs.date }}
 #      -
