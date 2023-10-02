@@ -54,10 +54,8 @@ jobs:
       -
         name: Building & Pushing Docker Image
         run: |
-          cd containers/$TAG_NAME || exit
-          VERSION=$(cat VERSION)
-          docker build . --tag quay.io/ecosystem-appeng/appeng-backstage:${VERSION}_${{ steps.date.outputs.date }}
-          docker push quay.io/ecosystem-appeng/appeng-backstage:${VERSION}_${{ steps.date.outputs.date }}
+          docker build . --tag quay.io/ecosystem-appeng/appeng-backstage:1_${{ steps.date.outputs.date }}
+          docker push quay.io/ecosystem-appeng/appeng-backstage:1_${{ steps.date.outputs.date }}
 #      -
 #        name: Setting Repository Public
 #        run: |
