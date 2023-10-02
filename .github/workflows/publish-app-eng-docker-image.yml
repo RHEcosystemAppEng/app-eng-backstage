@@ -41,5 +41,5 @@ jobs:
       -
         name: Building & Pushing Docker Image
         run: |
-          docker build . --tag quay.io/$QUAY_NAMESPACE/appeng-backstage:ci_${{ steps.date.outputs.date }}
-          docker push quay.io/$QUAY_NAMESPACE/appeng-backstage:ci_${{ steps.date.outputs.date }}
+          docker build . --tag quay.io/$QUAY_NAMESPACE/appeng-backstage:ci-${{ steps.date.outputs.date }}
+          docker push quay.io/$QUAY_NAMESPACE/appeng-backstage:ci-${{ steps.date.outputs.date }}
