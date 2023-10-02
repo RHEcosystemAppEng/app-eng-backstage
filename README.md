@@ -19,4 +19,4 @@ Execute below command to build the docker image.
 docker build --no-cache -t quay.io/ecosystem-appeng/appeng-backstage:2.0 . -f Dockerfile
 ```
 
-Testing the actions 1.
+Testing the actions 2.
