@@ -27,7 +27,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
-
       -
         name: Get changed files
         id: changed-files
@@ -35,18 +34,6 @@ jobs:
         with:
           files: |
             containers/Dockerfile
-
-      -
-        name: List all changed files
-        id: list-files
-        run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            TAG_NAME=`cut -d / -f 2 <<< $file`
-            echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
-          done
-          REPO_NAME=`echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]'`
-          NORMALIZED=`echo ${REPO_NAME//[%&*<>~-=+]/_}`
-          echo "NORMALIZED=$NORMALIZED" >> $GITHUB_ENV
       -
         name: Get current date # get the date of the build
         id: date
@@ -54,14 +41,5 @@ jobs:
       -
         name: Building & Pushing Docker Image
         run: |
-          docker login quay.io --username ${{ secrets.QUAY_ID }} --password ${{ secrets.QUAY_PW }}
-          docker build . --tag quay.io/lrangine/appeng-backstage:1_${{ steps.date.outputs.date }}
-          docker push quay.io/lrangine/appeng-backstage:1_${{ steps.date.outputs.date }}
-#      -
-#        name: Setting Repository Public
-#        run: |
-#          curl -s -X POST -H "Authorization: Bearer ${{ secrets.ROBOT_ACCESS_TOKEN }}"  -H "Content-Type: application/json" -d '{"visibility":"public"}' "https://quay.io//api/v1/repository/<your organization>/${NORMALIZED}_${TAG_NAME}/changevisibility"
-#
-#          #for repository in $(curl -s -X GET -H "Authorization: Bearer ${{ secrets.ROBOT_ACCESS_TOKEN }}" "https://quay.io/api/v1/repository?namespace=<your organization>" | jq -r '.repositories[].name' | sort); do
-#          #    curl -s -X POST -H "Authorization: Bearer ${{ secrets.ROBOT_ACCESS_TOKEN }}"  -H "Content-Type: application/json" -d '{"visibility":"public"}' "https://quay.io//api/v1/repository/<your organization>/$repository/changevisibility"
-#          #done
+          docker build . --tag quay.io/$QUAY_NAMESPACE/appeng-backstage:1_${{ steps.date.outputs.date }}
+          docker push quay.io/$QUAY_NAMESPACE/appeng-backstage:1_${{ steps.date.outputs.date }}
