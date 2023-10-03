@@ -7,7 +7,7 @@ IMAGE_TAG ?= 2.0
 DEV_NAMESPACE ?= ${USER}-backstage
 NAME=backstage
 HOSTNAME ?=  $(strip $(call get_cluster_addr))
-CONFIG_FILE_NAME ?= app-config.yaml
+CONFIG_FILE_NAME ?= app-config-openshift.yaml
 
 ##########################
 # Plugins settings for backstage

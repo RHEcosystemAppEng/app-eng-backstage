@@ -36,7 +36,6 @@ Execute below command to build and push the docker image.
 update the variables in MakeFile  
 
 ```
- GITHUB_ORGANIZATION  
  AUTH_GITHUB_CLIENT_ID 
  AUTH_GITHUB_CLIENT_SECRET 
  GITHUB_TOKEN
