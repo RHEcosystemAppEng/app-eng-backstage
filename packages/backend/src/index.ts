@@ -31,6 +31,7 @@ import search from './plugins/search';
 import { PluginEnvironment } from './types';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
 import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
+import rhda from './plugins/rhda'
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -93,6 +94,9 @@ async function main() {
   apiRouter.use('/techdocs', await techdocs(techdocsEnv));
   apiRouter.use('/proxy', await proxy(proxyEnv));
   apiRouter.use('/search', await search(searchEnv));
+
+  const rhdaEnv = useHotMemoize(module, () => createEnv('rhda'));
+  apiRouter.use('/rhda', await rhda(rhdaEnv));
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());

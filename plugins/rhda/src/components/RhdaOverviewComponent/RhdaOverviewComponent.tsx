@@ -3,8 +3,9 @@ import {Badge, Box, Chip, Grid, makeStyles, Paper, styled, Typography} from '@ma
 import {
     InfoCard, InfoCardVariants, Progress, ResponseErrorPanel
 } from '@backstage/core-components';
-import useAsync from "react-use/lib/useAsync";
 import Stack from '@mui/material/Stack';
+import useAsync from "react-use/lib/useAsync";
+import { useApi, configApiRef } from '@backstage/core-plugin-api';
 import {DenseTable, exampleUsers} from "../RhdaHomeFetchComponent/RhdaHomeFetchComponent";
 
 
@@ -15,15 +16,14 @@ type ScanResult = {
     low: number;
 };
 
-export const scanResult = {"vulnerabilities":{"critical":10,"high":20,"medium":30,"low":3}};
-
 
 
 export const RhdaOverviewComponent = () => {
-
-const { value, loading, error } = useAsync(async (): Promise<ScanResult> => {
-    // Would use fetch in a real world example
-    return scanResult.vulnerabilities;
+    const config = useApi(configApiRef);
+    const { value, loading, error } = useAsync(async (): Promise<ScanResult> => {
+        return fetch(`${config.getString("backend.baseUrl")}/api/rhda/rhda-analysis`)
+            .then(res => (res.ok ? res : Promise.reject(res)))
+            .then(res => res.json());
 }, []);
 // eslint-disable-next-line no-console
 console.log("value------->", value);
