@@ -1,0 +1,1 @@
+export { RhdaHomeComponent } from './RhdaHomeComponent';

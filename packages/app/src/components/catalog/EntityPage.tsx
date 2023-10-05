@@ -57,6 +57,10 @@ import {
 
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
+import {RhdaPage, RhdaOverview} from "@internal/plugin-rhda";
+
+// eslint-disable-next-line @backstage/no-relative-monorepo-imports
+
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -131,6 +135,10 @@ const overviewContent = (
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
 
+      <Grid item md={6} xs={12}>
+         <RhdaOverview variant="gridItem" height={400}/>
+      </Grid>
+
     <Grid item md={4} xs={12}>
       <EntityLinksCard />
     </Grid>
@@ -149,6 +157,10 @@ const serviceEntityPage = (
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
     </EntityLayout.Route>
+
+      <EntityLayout.Route path="/rhda" title="RHDA">
+          <RhdaPage/>
+      </EntityLayout.Route>
 
     <EntityLayout.Route path="/api" title="API">
       <Grid container spacing={3} alignItems="stretch">
@@ -183,6 +195,10 @@ const websiteEntityPage = (
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
     </EntityLayout.Route>
+
+      <EntityLayout.Route path="/rhda" title="RHDA">
+          <RhdaPage/>
+      </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
