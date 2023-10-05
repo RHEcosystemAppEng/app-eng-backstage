@@ -13,12 +13,11 @@ yarn dev
 
 # Building the docker image.
 
-Our attempt to use Podman for building the image been unsuccessful, so we're considering Docker.However, Docker Desktop needs commercial license, so we are going to use alternate free version `colima` with docker cli. Please go through [docker setup with Colima](https://dev.to/elliotalexander/how-to-use-docker-without-docker-desktop-on-macos-217m).
-
-We need to increase the memory to build the backstage image. You can use below command to increase the memory or colima VM spec.
+Our attempt to use Podman for building the image has been unsuccessful, so we're considering Docker. However, Docker Desktop needs a commercial license, so we are going to use an alternate free version `colima` with docker CLI. Please go through [docker setup with Colima](https://dev.to/elliotalexander/how-to-use-docker-without-docker-desktop-on-macos-217m).
 
 
-Execute below command to build and push the docker image.
+
+Execute the below command to build and push the docker image.
 
 ```shell
  make image/build 
@@ -26,7 +25,7 @@ Execute below command to build and push the docker image.
 ```
 
 ### Known Issues or Help
-If you run into issue ```The command '/bin/sh -c yarn install' returned a non-zero code: 137``` while building docker image increase memory using below command. 
+If you run into an issue ```The command '/bin/sh -c yarn install' returned a non-zero code: 137``` while building the docker image increase memory using the below command. 
 ```shell
 colima start --cpu 4 --memory 8 --disk 30
 ```
