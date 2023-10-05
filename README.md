@@ -13,12 +13,16 @@ yarn dev
 
 # Building the docker image.
 
-Docker Desktop needs commercial license, so we are going to use alternate free version `colima` with docker cli. Please go through [docker setup with Colima](https://dev.to/elliotalexander/how-to-use-docker-without-docker-desktop-on-macos-217m).
+Our attempt to use Podman for building the image been unsuccessful, so we're considering Docker.However, Docker Desktop needs commercial license, so we are going to use alternate free version `colima` with docker cli. Please go through [docker setup with Colima](https://dev.to/elliotalexander/how-to-use-docker-without-docker-desktop-on-macos-217m).
 
-Execute below command to build the docker image.
+We need to increase the memory to build the backstage image. You can use below command to increase the memory or colima VM spec.
+
+
+Execute below command to build and push the docker image.
 
 ```shell
-docker build --no-cache -t quay.io/ecosystem-appeng/appeng-backstage:3.0 . -f Dockerfile
+ make image/build 
+
 ```
 
 ### Known Issues or Help
