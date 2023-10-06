@@ -1,1 +1,0 @@
-export { RhdaHomeFetchComponent } from './RhdaHomeFetchComponent';

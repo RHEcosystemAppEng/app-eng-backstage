@@ -1,13 +1,11 @@
 import React from 'react';
-import {Badge, Box, Chip, Grid, makeStyles, Paper, styled, Typography} from '@material-ui/core';
+import {Badge} from '@material-ui/core';
 import {
-    InfoCard, InfoCardVariants, Progress, ResponseErrorPanel
+    InfoCard, Progress, ResponseErrorPanel
 } from '@backstage/core-components';
 import Stack from '@mui/material/Stack';
 import useAsync from "react-use/lib/useAsync";
 import { useApi, configApiRef } from '@backstage/core-plugin-api';
-import {DenseTable, exampleUsers} from "../RhdaHomeFetchComponent/RhdaHomeFetchComponent";
-
 
 type ScanResult = {
     critical: number;
@@ -16,8 +14,6 @@ type ScanResult = {
     low: number;
 };
 
-
-
 export const RhdaOverviewComponent = () => {
     const config = useApi(configApiRef);
     const { value, loading, error } = useAsync(async (): Promise<ScanResult> => {
@@ -25,17 +21,6 @@ export const RhdaOverviewComponent = () => {
             .then(res => (res.ok ? res : Promise.reject(res)))
             .then(res => res.json());
 }, []);
-// eslint-disable-next-line no-console
-console.log("value------->", value);
-
-    const DemoPaper = styled(Paper)(({ theme }) => ({
-        width: 120,
-        height: 120,
-        padding: theme.spacing(2),
-        ...theme.typography.body2,
-        textAlign: 'center',
-    }));
-
 
 if (loading) {
     return <Progress />;

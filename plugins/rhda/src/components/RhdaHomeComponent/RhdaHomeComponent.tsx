@@ -1,7 +1,6 @@
 import React from 'react';
-import { Typography, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import {
-  InfoCard,
   Header,
   Page,
   Content,
@@ -9,7 +8,7 @@ import {
   HeaderLabel,
   SupportButton,
 } from '@backstage/core-components';
-import {RhdaHomeFetchComponent} from "../RhdaHomeFetchComponent";
+import {RhdaOverview} from "../../plugin";
 
 export const RhdaHomeComponent = () => (
   <Page themeId="tool">
@@ -23,14 +22,7 @@ export const RhdaHomeComponent = () => (
       </ContentHeader>
       <Grid container spacing={3} direction="column">
         <Grid item>
-          <InfoCard title="Information card">
-            <Typography variant="body1">
-              All content should be wrapped in a card like this.
-            </Typography>
-          </InfoCard>
-        </Grid>
-         <Grid item>
-          <RhdaHomeFetchComponent />
+            <RhdaOverview/>
         </Grid>
       </Grid>
     </Content>

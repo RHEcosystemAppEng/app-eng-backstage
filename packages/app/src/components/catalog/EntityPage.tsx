@@ -136,7 +136,7 @@ const overviewContent = (
     </Grid>
 
       <Grid item md={6} xs={12}>
-         <RhdaOverview variant="gridItem" height={400}/>
+         <RhdaOverview />
       </Grid>
 
     <Grid item md={4} xs={12}>
