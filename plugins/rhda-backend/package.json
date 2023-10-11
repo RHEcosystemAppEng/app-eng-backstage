@@ -23,6 +23,7 @@
     "postpack": "backstage-cli package postpack"
   },
   "dependencies": {
+    "@RHEcosystemAppEng/exhort-javascript-api": "0.0.2-ea.36",
     "@backstage/backend-common": "^0.19.5",
     "@backstage/config": "^1.1.0",
     "@types/express": "*",

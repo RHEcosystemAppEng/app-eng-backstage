@@ -2,6 +2,7 @@ import { errorHandler } from '@backstage/backend-common';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
+import exhort from '@RHEcosystemAppEng/exhort-javascript-api'
 
 
 export interface RouterOptions {
@@ -27,14 +28,31 @@ export async function createRouter(
 
   router.get('/rhda-analysis', (_, response) => {
     logger.info('/rhda-analysis!');
-   /* const clone = require('git-clone/promise');
-    const repo = 'git@github.com:huoqishi/x-html.git'
-    clone(repo, './test').then(() => {
-      console.log('ok')
-   })*/
+    const clone = require('git-clone/promise');
+    const repo = 'https://github.com/lokeshrangineni/stonesoup-java-pipeline-example-with-crda.git'
+    const folderName = "test-folder";
+    const targetPathDir = `/Users/lrangine/Documents/Src/appeng-backstage/${folderName}`;
+    clone(repo, targetPathDir).then(async () => {
+      logger.info(`cloned the repo=[${repo}] successfully ${targetPathDir}`);
+      // Get stack analysis in JSON format
+      // Get component analysis in JSON format
+      // Get stack analysis in JSON format
+      const stackAnalysis = await exhort.stackAnalysis('/path/to/pom.xml');
+      console.log("stackAnalysis", stackAnalysis);
+    }).catch((error:any) => {
+      logger.error(`FAILED to clone the repo=[${repo}] to ${targetPathDir}, with error=${error}`);
+    });
+
     // in reality we need to run the scan and get results.
     response.json(scanResult.vulnerabilities);
   });
+
+  /* function hashCode(s:string) {
+    return s.split("").reduce(function(a, b) {
+      const result = ((a << 5) - a) + b.charCodeAt(0);
+      return result & result;
+    }, 0);
+  }*/
 
   router.use(errorHandler());
   return router;
