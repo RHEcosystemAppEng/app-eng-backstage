@@ -9,12 +9,18 @@ import { makeStyles } from '@material-ui/core';
 import {ScanResponse} from "../../types";
 import {useRhdaAppData} from "../../useRhdaAppdata";
 
-
 const useStyles = makeStyles(
     _theme => ({
+        projectInfo:{
+            padding: '2rem 2rem',
+            flexWrap: 'wrap',
+            fontSize: '10rem'
+        },
         card:{
             padding: '2rem 2rem',
-            verticalAlign: 'middle'
+            verticalAlign: 'middle',
+            flexWrap: 'wrap',
+            fontSize: '1.5rem'
         },
         critical: {
             color: 'crimson',
@@ -35,20 +41,20 @@ const useStyles = makeStyles(
             alignContent:'center'
         },
         medium: {
-            color: 'orange',
+            color: 'coral',
             fontSize: '50px'
         },
         mediumLabel: {
-            color: 'orange',
+            color: 'coral',
             fontSize: '15px',
             alignContent:'center'
         },
         low: {
-            color: 'deeppink',
+            color: 'orange',
             fontSize: '50px'
         },
         lowLabel: {
-            color: 'deeppink',
+            color: 'orange',
             fontSize: '15px',
             alignContent:'center'
         }
@@ -59,6 +65,16 @@ export const RhdaOverviewComponent = () => {
     const classes = useStyles();
     const config = useApi(configApiRef);
     const { repositorySlug, manifestFilePath } = useRhdaAppData();
+    if(!repositorySlug){
+        const error = {"message":"RHDA Overview: Missing 'github.com/project-slug' annotation in catalog-info.yaml"};
+        return (<ResponseErrorPanel title={"RHDA Overview: Missing 'github.com/project-slug' annotation"} error={error}/>);
+    }
+
+    if(!manifestFilePath){
+        const error = {"message":"RHDA Overview: Missing 'rhda/manifest-file-path' annotation in catalog-info.yaml"};
+        return (<ResponseErrorPanel title={"RHDA Overview: Missing 'rhda/manifest-file-path' annotation"} error={error} />);
+    }
+
     const { value, loading, error } = useAsync(async (): Promise<ScanResponse> => {
         return fetch(`${config.getString("backend.baseUrl")}/api/rhda/rhda-analysis?repositorySlug=${repositorySlug}&manifestFilePath=${manifestFilePath}`)
             .then(res => (res.ok ? res : Promise.reject(res)))
@@ -75,8 +91,10 @@ export const RhdaOverviewComponent = () => {
         title="RHDA Overview"
         variant="gridItem"
     >
+        <panel>
+        <div className={classes.card}> The codebase {repositorySlug} => {manifestFilePath} has undergone a comprehensive security scan, identifying following vulnerabilities. Immediate attention is required to remediate these security concerns. </div>
         <Stack direction="row" spacing={15}>
-            <div style={{ padding: '2rem 2rem', verticalAlign: 'middle' }}>
+            <div className={classes.card}>
                 <div className={classes.critical}>
                     {value?.vulnerabilities?.critical}
                 </div>
@@ -84,7 +102,7 @@ export const RhdaOverviewComponent = () => {
                     Critical
                 </div>
             </div>
-            <div style={{ padding: '2rem 2rem', verticalAlign: 'middle' }}>
+            <div className={classes.card}>
                 <div className={classes.high}>
                     {value?.vulnerabilities?.high}
                 </div>
@@ -92,7 +110,7 @@ export const RhdaOverviewComponent = () => {
                     High
                 </div>
             </div>
-            <div style={{ padding: '2rem 2rem', verticalAlign: 'middle' }}>
+            <div className={classes.card}>
                 <div className={classes.medium}>
                     {value?.vulnerabilities?.medium}
                 </div>
@@ -100,7 +118,7 @@ export const RhdaOverviewComponent = () => {
                     Medium
                 </div>
             </div>
-            <div style={{ padding: '2rem 2rem', verticalAlign: 'middle' }}>
+            <div className={classes.card}>
                 <div className={classes.low}>
                     {value?.vulnerabilities?.low}
                 </div>
@@ -109,6 +127,7 @@ export const RhdaOverviewComponent = () => {
                 </div>
             </div>
         </Stack>
+        </panel>
     </InfoCard>);
 
 };
