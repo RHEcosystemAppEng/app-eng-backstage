@@ -5,9 +5,10 @@ import {
 import Stack from '@mui/material/Stack';
 import useAsync from "react-use/lib/useAsync";
 import { useApi, configApiRef } from '@backstage/core-plugin-api';
-import { makeStyles } from '@material-ui/core';
+import {DialogActions, makeStyles} from '@material-ui/core';
 import {ScanResponse} from "../../types";
 import {useRhdaAppData} from "../../useRhdaAppdata";
+import {RhdaDownloadReportComponent} from "../RhdaDownloadReportComponent";
 
 const useStyles = makeStyles(
     _theme => ({
@@ -64,18 +65,13 @@ const useStyles = makeStyles(
 export const RhdaOverviewComponent = () => {
     const classes = useStyles();
     const config = useApi(configApiRef);
-    const { repositorySlug, manifestFilePath } = useRhdaAppData();
-    if(!repositorySlug){
-        const error = {"message":"RHDA Overview: Missing 'github.com/project-slug' annotation in catalog-info.yaml"};
-        return (<ResponseErrorPanel title={"RHDA Overview: Missing 'github.com/project-slug' annotation"} error={error}/>);
+    const { repositorySlug, manifestFilePath, error } = useRhdaAppData();
+
+    if(error){
+        return (<ResponseErrorPanel title={`RHDA Overview: ${error.name}`} error={error} />);
     }
 
-    if(!manifestFilePath){
-        const error = {"message":"RHDA Overview: Missing 'rhda/manifest-file-path' annotation in catalog-info.yaml"};
-        return (<ResponseErrorPanel title={"RHDA Overview: Missing 'rhda/manifest-file-path' annotation"} error={error} />);
-    }
-
-    const { value, loading, error } = useAsync(async (): Promise<ScanResponse> => {
+    const { value, loading, apiError } = useAsync(async (): Promise<ScanResponse> => {
         return fetch(`${config.getString("backend.baseUrl")}/api/rhda/rhda-analysis?repositorySlug=${repositorySlug}&manifestFilePath=${manifestFilePath}`)
             .then(res => (res.ok ? res : Promise.reject(res)))
             .then(res => res.json());
@@ -83,7 +79,7 @@ export const RhdaOverviewComponent = () => {
 
     if (loading) {
         return <Progress />;
-    } else if (error) {
+    } else if (apiError) {
         return <ResponseErrorPanel error={error} />;
     }
 
@@ -91,8 +87,7 @@ export const RhdaOverviewComponent = () => {
         title="RHDA Overview"
         variant="gridItem"
     >
-        <panel>
-        <div className={classes.card}> The codebase {repositorySlug} => {manifestFilePath} has undergone a comprehensive security scan, identifying following vulnerabilities. Immediate attention is required to remediate these security concerns. </div>
+        <div className={classes.card}> The codebase {repositorySlug} =&gt; {manifestFilePath} has undergone a comprehensive security scan, identifying following vulnerabilities. Immediate attention is required to remediate these security concerns. You can also download the full report. </div>
         <Stack direction="row" spacing={15}>
             <div className={classes.card}>
                 <div className={classes.critical}>
@@ -127,7 +122,9 @@ export const RhdaOverviewComponent = () => {
                 </div>
             </div>
         </Stack>
-        </panel>
+        <DialogActions>
+            <RhdaDownloadReportComponent/>
+        </DialogActions>
     </InfoCard>);
 
 };

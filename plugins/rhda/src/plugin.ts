@@ -27,3 +27,12 @@ export const RhdaOverview = rhdaPlugin.provide(
         mountPoint: rootRouteRef,
     }),
 );
+
+export const RhdaDownloadReport = rhdaPlugin.provide(
+    createRoutableExtension({
+        name: 'RhdaDownloadReport',
+        component: () =>
+            import('./components/RhdaDownloadReportComponent').then(m => m.RhdaDownloadReportComponent),
+        mountPoint: rootRouteRef,
+    }),
+);

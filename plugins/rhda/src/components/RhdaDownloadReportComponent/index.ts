@@ -1,0 +1,1 @@
+export { RhdaDownloadReportComponent } from './RhdaDownloadReportComponent';

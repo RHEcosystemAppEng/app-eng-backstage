@@ -1,1 +1,1 @@
-export { rhdaPlugin, RhdaPage, RhdaOverview } from './plugin';
+export { rhdaPlugin, RhdaPage, RhdaOverview  } from './plugin';
