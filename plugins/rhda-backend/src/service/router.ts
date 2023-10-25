@@ -2,7 +2,7 @@ import { errorHandler } from '@backstage/backend-common';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
-import {healthHandler, rhdaHandler, rhdaHtmlHandler} from "./exhortHandler";
+import {healthHandler, rhdaSummaryHandler, rhdaDownloadHtmlReportHandler} from "./exhortHandler";
 
 
 export interface RouterOptions {
@@ -18,8 +18,8 @@ export async function createRouter(
   router.use(express.json());
 
   router.get('/health', healthHandler);
-  router.get('/rhda-analysis', rhdaHandler);
-  router.get('/rhda-html-analysis', rhdaHtmlHandler);
+  router.get('/rhda-analysis', rhdaSummaryHandler);
+  router.get('/rhda-html-report-download', rhdaDownloadHtmlReportHandler);
   router.use(errorHandler());
   return router;
 }

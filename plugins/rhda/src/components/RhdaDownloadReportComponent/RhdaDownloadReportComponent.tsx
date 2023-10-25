@@ -29,7 +29,7 @@ export const RhdaDownloadReportComponent = () => {
 
     function downloadHtmlReport(){
         setLoading(true);
-           fetch(`${config.getString("backend.baseUrl")}/api/rhda/rhda-html-analysis?repositorySlug=${repositorySlug}&manifestFilePath=${manifestFilePath}`,{})
+           fetch(`${config.getString("backend.baseUrl")}/api/rhda/rhda-html-report-download?repositorySlug=${repositorySlug}&manifestFilePath=${manifestFilePath}`,{})
                 .then(res => (res.ok ? res : Promise.reject(res)))
                 .then(res => res.blob())
                .then((blob)=> {

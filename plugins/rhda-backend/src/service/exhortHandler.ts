@@ -5,7 +5,7 @@ import * as clone from 'git-clone/promise';
 import * as crypto from "crypto";
 import { recreateFolder, deleteFolderIfItExists } from './fileUtil';
 
-export const rhdaHandler = (req: Request, res: Response) => {
+export const rhdaSummaryHandler = (req: Request, res: Response) => {
     const logger = getRootLogger();
     const repo = `https://github.com/${req.query.repositorySlug}.git`
     const gitSourceDir = `./git-source/${crypto.randomBytes(20).toString('hex')}`;
@@ -37,7 +37,7 @@ export const rhdaHandler = (req: Request, res: Response) => {
 };
 
 
-export const rhdaHtmlHandler = (req: Request, res: Response) => {
+export const rhdaDownloadHtmlReportHandler = (req: Request, res: Response) => {
     const logger = getRootLogger();
     const repo = `https://github.com/${req.query.repositorySlug}.git`
     const gitSourceDir = `./git-source/${crypto.randomBytes(20).toString('hex')}`;
